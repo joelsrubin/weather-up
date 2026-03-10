@@ -1,5 +1,5 @@
 import type { TLatLong } from "@/hooks/use-coords";
-import { type TForecastData } from "@/types";
+
 import { useQuery } from "@tanstack/react-query";
 
 const API_ENDPOINT = 'https://api.weather.gov'
@@ -8,18 +8,20 @@ const API_ENDPOINT = 'https://api.weather.gov'
 
 async function getForecast({ lat, long }: TLatLong) {
     const data = await fetch(`${API_ENDPOINT}/points/${lat},${long}`)
-    const response = await data.json();
+    const response = await data.json() as TWeatherPointResponse;
+    console.log({ response })
     const forecastUrl = response.properties.forecast
-
+    const city = response.properties.relativeLocation.properties.city
+    const state = response.properties.relativeLocation.properties.state
     const forecastData = await fetch(forecastUrl)
     const forecastResponse = await forecastData.json();
     console.log({ forecastResponse })
-    return forecastResponse
+    return { city, state, ...forecastResponse }
 }
 
 export function useForecastQuery({ lat, long }: TLatLong) {
 
-    return useQuery<TForecastData>({
+    return useQuery<TForecastData & { city: string; state: string }>({
         queryKey: ["coords", lat, long],
         queryFn: () => getForecast({ lat, long }),
         staleTime: Infinity,
