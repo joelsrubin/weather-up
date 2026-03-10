@@ -1,18 +1,23 @@
-import { Button } from "@/components/ui/button"
+
+import { Sun } from "lucide-react"
+import { GetStartedForm } from "./components/get-started-card"
+import { useState } from "react"
 
 export function App() {
+  const [selectedZip, setSelectedZip] = useState<number | null>(null)
+  console.log({ selectedZip })
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
+    <div className="flex flex-col min-h-svh p-6">
+      <div className="flex space-x-2 pb-6">
+        <h1 className="font-medium">Weather Up</h1>
+        <Sun />
+      </div>
+      <div className="flex justify-center w-full">
+        <GetStartedForm
+          className="w-full sm:max-w-[50%]"
+          selectedZip={selectedZip}
+          setSelectedZip={setSelectedZip}
+        />
       </div>
     </div>
   )
