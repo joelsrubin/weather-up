@@ -1,29 +1,14 @@
 
 import { Sun } from "lucide-react"
-
-import { useEffect, useState } from "react"
 import { Spinner } from "./components/ui/spinner"
-
-type TLatLong = {
-  lat: number;
-  long: number
-}
+import { useCoords } from "./hooks/use-coords"
+import { useForecastQuery } from "./api/queries/use-forecast-query"
 
 export function App() {
-  const [latLong, setLatLong] = useState<TLatLong | null>(null)
-  const [isLoading, setIsLoading] = useState(true);
+  const { coords, isLoading, error } = useCoords()
+  const { data } = useForecastQuery({ lat: coords?.lat, long: coords?.long })
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition((pos) => {
-      console.log(pos.coords)
-      setLatLong({
-        lat: pos.coords.latitude,
-        long: pos.coords.longitude
-      })
-      setIsLoading(false)
-    });
-  }, [])
-
+  console.log({ data })
   return (
     <div className="flex flex-col min-h-svh">
       <div className="flex space-x-2 p-6 w-full h-full bg-accent">
@@ -31,15 +16,19 @@ export function App() {
         <Sun />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center w-full space-y-2">
-        {isLoading ? (
+        {isLoading && (
           <>
             <h1 className="text-secondary-foreground">Grabbing User Location</h1>
             <Spinner />
           </>
-        ) : (
+        )}
+        {!isLoading && error && (
+          <p className="text-destructive">Unable to retrieve location</p>
+        )}
+        {!isLoading && !error && coords && (
           <div>
-            <pre>lat: {latLong?.lat}</pre>
-            <pre>long: {latLong?.long}</pre>
+            <pre>lat: {coords.lat}</pre>
+            <pre>long: {coords.long}</pre>
           </div>
         )}
       </div>
