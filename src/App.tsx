@@ -1,29 +1,37 @@
 
 import { Moon, Sun } from "lucide-react"
 import { Spinner } from "./components/ui/spinner"
-import { useCoords } from "./hooks/use-coords"
-import { useForecastQuery } from "./api/queries/use-forecast-query"
+
+
 import { WeatherCard } from "./components/weather-card"
 
 import { Button } from "./components/ui/button"
 import { useLayerRecommendationMutation } from "./api/mutations/get-layer-recommendation"
-import { LoadingCard } from "./components/loading-card"
+
 import { useTheme } from "./components/theme-provider"
 import { useState } from "react"
 import { RecommendationModal } from "./components/recommendation-modal"
 
+import { GetStarted } from "./components/get-started-card"
+import { useForecastMutation } from "./api/mutations/use-forecast-mutation"
+
+
 export function App() {
-  const { coords, isLoading: isFetchingCoords, error } = useCoords()
-  const { data: forecast, isLoading: isFetchingForecast } = useForecastQuery({ lat: coords?.lat, long: coords?.long })
+
+  const [view, setView] = useState<"search" | "forecast">("search")
   const { setTheme, theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const { data: forecast, mutate: getForecast, isPending: isFetchingForecast } = useForecastMutation({
+    onSuccess: () => {
+      setView("forecast")
+    }
+  });
   const { mutate: getRecommendation, isPending, data: recommendationData } = useLayerRecommendationMutation({
     onSuccess: () => {
       setIsOpen(true)
     }
   })
 
-  const isLoading = isFetchingCoords || isFetchingForecast
 
   return (
     <>
@@ -33,18 +41,14 @@ export function App() {
           <Button variant="outline" className="" size="icon-sm" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Moon /> : <Sun />}</Button>
         </div>
         <div className="flex flex-1 flex-col items-center justify-start w-full space-y-2 p-6">
-          {isLoading && (
-            <LoadingCard />
+          {view === 'search' ? (<GetStarted getForecast={getForecast} isFetchingForecast={isFetchingForecast} />) : (
+            <>
+              <WeatherCard data={forecast} setView={setView} />
+              <Button className="w-full max-w-sm" size="lg" disabled={isPending} onClick={() => {
+                if (forecast) getRecommendation(forecast)
+              }}>{isPending ? "Getting" : "Get"} AI Layers Recommendation {isPending ? <Spinner /> : null}</Button>
+            </>
           )}
-          {!isLoading && error && (
-            <p className="text-destructive">Unable to retrieve location</p>
-          )}
-          {!isLoading && !error && coords && (
-            <WeatherCard data={forecast} />
-          )}
-          <Button className="w-full max-w-sm" size="lg" disabled={isPending} onClick={() => {
-            if (forecast) getRecommendation(forecast)
-          }}>{isPending ? "Getting" : "Get"} AI Layers Recommendation {isPending ? <Spinner /> : null}</Button>
         </div>
       </div>
       <RecommendationModal data={recommendationData} open={isOpen} onOpenChange={setIsOpen} location={`${forecast?.city}, ${forecast?.state}`} temperature={forecast?.properties.periods[0].temperature} />

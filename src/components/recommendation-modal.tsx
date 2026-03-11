@@ -28,6 +28,7 @@ const layerIcons: Record<string, React.ReactNode> = {
     shorts: <Wind className="w-4 h-4" />,
     jacket: <Droplets className="w-4 h-4" />,
     shoes: <Footprints className="w-4 h-4" />,
+    sneakerse: <Footprints className="w-4 h-4" />,
 }
 
 function getLayerIcon(layer: string) {
@@ -45,7 +46,7 @@ function getLayerColor(index: number) {
         "bg-slate-100 text-slate-700 border-slate-200",
         "bg-teal-100 text-teal-700 border-teal-200",
     ]
-    return colors[index % colors.length]
+    return colors[index]
 }
 
 export function RecommendationModal({

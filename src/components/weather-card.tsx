@@ -1,7 +1,8 @@
-import { Wind } from "lucide-react"
+import { ArrowLeft, Wind } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 import { groupForecastByDay } from "@/utils/groupForecastByDay"
+import { Button } from "./ui/button";
 
 
 
@@ -14,7 +15,7 @@ type TWeatherCardData = TForecastData & {
     city: string;
     state: string;
 } | undefined
-export function WeatherCard({ data }: { data: TWeatherCardData }) {
+export function WeatherCard({ data, setView }: { data: TWeatherCardData, setView: (view: "search" | "forecast") => void }) {
 
     const today = data?.properties.periods[0]
     const windSpeed = today?.windSpeed
@@ -30,7 +31,10 @@ export function WeatherCard({ data }: { data: TWeatherCardData }) {
 
                 {/* Temperature & Condition */}
                 <div className="flex items-start justify-between">
-                    <div>
+                    <div className="flex items-center gap-2">
+                        <Button variant="default" size="icon-sm" className="p-0" onClick={() => setView("search")}>
+                            <ArrowLeft size={20} />
+                        </Button>
                         <p className="text-3xl font-bold tracking-tight text-foreground leading-none">
                             {data?.city}, {data?.state}
                         </p>
@@ -64,7 +68,6 @@ export function WeatherCard({ data }: { data: TWeatherCardData }) {
                         {forecasts.slice(0, 5).map((day) => (
                             <div key={day.dayName} className="flex flex-col items-center gap-2">
                                 <p className="text-sm text-muted-foreground">{day.dayName}</p>
-                                {/* <WeatherIcon condition={day.condition} size={26} /> */}
                                 <p className="text-sm font-semibold text-foreground">{day.high}°</p>
                                 <p className="text-sm text-muted-foreground">{day.low}°</p>
                             </div>
