@@ -5,12 +5,21 @@ import { useCoords } from "./hooks/use-coords"
 import { useForecastQuery } from "./api/queries/use-forecast-query"
 import { WeatherCard } from "./components/weather-card"
 
+import { Button } from "./components/ui/button"
+import { useLayerRecommendationMutation } from "./api/mutations/get-layer-recommendation"
+
 export function App() {
   const { coords, isLoading, error } = useCoords()
-  const { data } = useForecastQuery({ lat: coords?.lat, long: coords?.long })
+  const { data: forecast } = useForecastQuery({ lat: coords?.lat, long: coords?.long })
 
-  console.log({ data })
-  console.log(data?.city, data?.state)
+
+  const { mutateAsync: getRecommendation, data: suggestion, isPending } = useLayerRecommendationMutation({
+    onSuccess: (string) => {
+
+    }
+  })
+  console.log({ forecast, })
+  console.log(forecast?.city, forecast?.state)
   return (
     <div className="flex flex-col min-h-svh">
       <div className="flex space-x-2 p-6 w-full h-full bg-accent/50">
@@ -28,8 +37,12 @@ export function App() {
           <p className="text-destructive">Unable to retrieve location</p>
         )}
         {!isLoading && !error && coords && (
-          <WeatherCard data={data} />
+          <WeatherCard data={forecast} />
         )}
+        <Button disabled={isPending} onClick={async () => {
+          const layers = await getRecommendation(forecast)
+          console.log({ layers })
+        }}>{isPending ? "Getting" : "Get"} AI Layers Recommendation {isPending ? <Spinner /> : null}</Button>
       </div>
     </div>
   )
