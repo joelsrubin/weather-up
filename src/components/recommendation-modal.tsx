@@ -6,8 +6,8 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 
-import { Cloud, Shirt, Footprints, Icon, Droplets, Thermometer, HardHat } from "lucide-react"
-import { trousers } from '@lucide/lab'
+import { Cloud, Shirt, Footprints, Icon, Droplets, Thermometer } from "lucide-react"
+import { hatBaseball, trousers } from '@lucide/lab'
 interface WeatherOutfitData {
     layers: string[]
     summary: string
@@ -27,8 +27,8 @@ const layerIcons: Record<string, React.ReactNode> = {
     pants: <Icon iconNode={trousers} className="w-4 h-4" />,
     shorts: <Icon iconNode={trousers} className="w-4 h-4" />,
     jacket: <Droplets className="w-4 h-4" />,
-    hat: <HardHat className="w-4 h-4" />,
-    cap: <HardHat className="w-4 h-4" />,
+    hat: <Icon iconNode={hatBaseball} className="w-4 h-4" />,
+    cap: <Icon iconNode={hatBaseball} className="w-4 h-4" />,
     shoes: <Footprints className="w-4 h-4" />,
     sneakers: <Footprints className="w-4 h-4" />,
     sandals: <Footprints className="w-4 h-4" />,
@@ -37,8 +37,6 @@ const layerIcons: Record<string, React.ReactNode> = {
 function getLayerIcon(layer: string) {
     const lower = layer.toLowerCase()
     for (const [key, icon] of Object.entries(layerIcons)) {
-        console.log({ key, lower })
-        console.log(lower.includes(key))
         if (lower.includes(key)) return icon
     }
     return <Shirt className="w-4 h-4" />
