@@ -6,6 +6,7 @@ import App from "./App.tsx"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { Toaster } from "sonner"
 const queryClient = new QueryClient()
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
         <App />
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
+      <Toaster position="top-center" />
     </QueryClientProvider>
   </StrictMode>
 )

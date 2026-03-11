@@ -1,6 +1,7 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 const API_ENDPOINT = 'https://api.weather.gov'
 export const geocodeCity = async (searchQuery: string) => {
+
     const response = await fetch(
         `https://nominatim.openstreetmap.org/search?` +
         `q=${encodeURIComponent(searchQuery)}&` +

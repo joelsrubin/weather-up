@@ -1,5 +1,5 @@
 
-import { Moon, Sun } from "lucide-react"
+import { Bot, Moon, Sun } from "lucide-react"
 import { Spinner } from "./components/ui/spinner"
 
 
@@ -14,6 +14,7 @@ import { RecommendationModal } from "./components/recommendation-modal"
 
 import { GetStarted } from "./components/get-started-card"
 import { useForecastMutation } from "./api/mutations/use-forecast-mutation"
+import { toast } from "sonner"
 
 
 export function App() {
@@ -24,11 +25,21 @@ export function App() {
   const { data: forecast, mutate: getForecast, isPending: isFetchingForecast } = useForecastMutation({
     onSuccess: () => {
       setView("forecast")
+    },
+    onError: (error) => {
+      if (error.message.includes("forecast")) {
+        return toast.error("Enter valid city and state")
+      }
+      toast.error(error.message)
     }
   });
   const { mutate: getRecommendation, isPending, data: recommendationData } = useLayerRecommendationMutation({
     onSuccess: () => {
       setIsOpen(true)
+    },
+    onError: () => {
+      toast.error("Failed to get recommendation")
+      setIsOpen(false)
     }
   })
 
@@ -46,7 +57,7 @@ export function App() {
               <WeatherCard data={forecast} setView={setView} />
               <Button className="w-full max-w-sm" size="lg" disabled={isPending} onClick={() => {
                 if (forecast) getRecommendation(forecast)
-              }}>{isPending ? "Getting" : "Get"} AI Layers Recommendation {isPending ? <Spinner /> : null}</Button>
+              }}><Bot /> Dress my kid with AI {isPending ? <Spinner /> : null}</Button>
             </>
           )}
         </div>

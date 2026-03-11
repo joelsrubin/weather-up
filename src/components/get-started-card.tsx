@@ -1,7 +1,7 @@
 
 import { Search, } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
-import { Field, FieldLabel } from "./ui/field"
+import { Field, FieldGroup, FieldLabel } from "./ui/field"
 import { Input } from "@base-ui/react"
 import { Button } from "./ui/button"
 import { useState } from "react"
@@ -29,22 +29,24 @@ export function GetStarted({ getForecast, isFetchingForecast }: { getForecast: U
                     getForecast(search)
 
                 }}
-                    className="gap-2 flex flex-col"
+
                 >
-                    <Field>
-                        <FieldLabel htmlFor="name">Location</FieldLabel>
-                        <Input onChange={(e) => setSearch(e.target.value)} id="name" autoComplete="off" placeholder="Enter a location here..." className="outline-1 rounded-md p-2" />
+                    <FieldGroup>
+                        <Field>
+                            <FieldLabel htmlFor="name">Location</FieldLabel>
+                            <Input required onChange={(e) => setSearch(e.target.value)} id="name" autoComplete="off" placeholder="Enter a location here..." className="outline-1 rounded-md p-2" />
 
-                    </Field>
-                    <Button
-                        className="w-full max-w-sm"
-                        type="submit"
+                        </Field>
+                        <Button
+                            className="w-full max-w-sm"
+                            type="submit"
 
-                        disabled={isFetchingForecast}
-                    >
-                        Search
-                        {isFetchingForecast ? <Spinner /> : <Search size={20} />}
-                    </Button>
+                            disabled={isFetchingForecast}
+                        >
+                            Search
+                            {isFetchingForecast ? <Spinner /> : <Search size={20} />}
+                        </Button>
+                    </FieldGroup>
                 </form>
             </CardContent>
         </Card>
