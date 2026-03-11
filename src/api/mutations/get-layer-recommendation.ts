@@ -13,8 +13,8 @@ type TForecastWithLocation = TForecastData & {
     state: string;
 };
 
-export async function getLayerRecommendation(forecast: TForecastWithLocation | undefined): Promise<{ layers: string[]; summary: string; } | null> {
-    if (!forecast) return null
+export async function getLayerRecommendation(forecast: TForecastWithLocation): Promise<{ layers: string[]; summary: string; }> {
+
     const today = forecast.properties.periods[0];
     const { output } = await generateText({
         model: google("gemini-2.5-flash"),
@@ -37,9 +37,9 @@ ${JSON.stringify(today)}
 }
 
 export function useLayerRecommendationMutation(
-    options?: UseMutationOptions<{ layers: string[]; summary: string; } | null, Error, TForecastWithLocation | undefined>
+    options?: UseMutationOptions<{ layers: string[]; summary: string; }, Error, TForecastWithLocation>
 ) {
-    return useMutation<{ layers: string[]; summary: string; } | null, Error, TForecastWithLocation | undefined>({
+    return useMutation<{ layers: string[]; summary: string; }, Error, TForecastWithLocation>({
         mutationFn: (forecast) => getLayerRecommendation(forecast),
         mutationKey: ['layers'],
         ...options,
