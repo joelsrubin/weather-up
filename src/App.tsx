@@ -14,7 +14,7 @@ export function App() {
 
 
   const { mutateAsync: getRecommendation, data: suggestion, isPending } = useLayerRecommendationMutation({
-    onSuccess: (string) => {
+    onSuccess: (suggestion) => {
 
     }
   })
@@ -41,7 +41,7 @@ export function App() {
         )}
         <Button disabled={isPending} onClick={async () => {
           const layers = await getRecommendation(forecast)
-          console.log({ layers })
+          console.log(layers)
         }}>{isPending ? "Getting" : "Get"} AI Layers Recommendation {isPending ? <Spinner /> : null}</Button>
       </div>
     </div>

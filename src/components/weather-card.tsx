@@ -24,16 +24,15 @@ export function WeatherCard({ data }: { data: TWeatherCardData }) {
 
 
     return (
-        <Card className="w-full max-w-sm rounded-3xl border-border shadow-sm bg-card">
+        <Card className="w-full max-w-sm rounded-3xl border-border shadow-sm bg-card mb-6">
             <CardContent className="p-8 space-y-6">
-                {/* Location */}
-                <p className="text-muted-foreground text-base font-normal">{data?.city}, {data?.state}</p>
+
 
                 {/* Temperature & Condition */}
                 <div className="flex items-start justify-between">
                     <div>
-                        <p className="text-7xl font-bold tracking-tight text-foreground leading-none">
-                            {today?.temperature}°
+                        <p className="text-3xl font-bold tracking-tight text-foreground leading-none">
+                            {data?.city}, {data?.state}
                         </p>
 
                     </div>
