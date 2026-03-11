@@ -6,8 +6,8 @@ import {
     DialogDescription,
 } from "@/components/ui/dialog"
 
-import { Cloud, Shirt, Footprints, Wind, Droplets, Thermometer } from "lucide-react"
-
+import { Cloud, Shirt, Footprints, Icon, Droplets, Thermometer, HardHat } from "lucide-react"
+import { trousers } from '@lucide/lab'
 interface WeatherOutfitData {
     layers: string[]
     summary: string
@@ -24,16 +24,21 @@ interface RecommendationModalProps {
 const layerIcons: Record<string, React.ReactNode> = {
     "t-shirt": <Shirt className="w-4 h-4" />,
     shirt: <Shirt className="w-4 h-4" />,
-    pants: <Wind className="w-4 h-4" />,
-    shorts: <Wind className="w-4 h-4" />,
+    pants: <Icon iconNode={trousers} className="w-4 h-4" />,
+    shorts: <Icon iconNode={trousers} className="w-4 h-4" />,
     jacket: <Droplets className="w-4 h-4" />,
+    hat: <HardHat className="w-4 h-4" />,
+    cap: <HardHat className="w-4 h-4" />,
     shoes: <Footprints className="w-4 h-4" />,
-    sneakerse: <Footprints className="w-4 h-4" />,
+    sneakers: <Footprints className="w-4 h-4" />,
+    sandals: <Footprints className="w-4 h-4" />,
 }
 
 function getLayerIcon(layer: string) {
     const lower = layer.toLowerCase()
     for (const [key, icon] of Object.entries(layerIcons)) {
+        console.log({ key, lower })
+        console.log(lower.includes(key))
         if (lower.includes(key)) return icon
     }
     return <Shirt className="w-4 h-4" />

@@ -1,9 +1,10 @@
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
-const API_ENDPOINT = 'https://api.weather.gov'
+import { ENDPOINTS } from "@/constants/endpoints";
+
 export const geocodeCity = async (searchQuery: string) => {
 
     const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?` +
+        `${ENDPOINTS.GEOCODE}/search?` +
         `q=${encodeURIComponent(searchQuery)}&` +
         `format=json&limit=1`
     );
@@ -13,16 +14,18 @@ export const geocodeCity = async (searchQuery: string) => {
         throw new Error('City not found');
     }
 
-    const { lat, lon } = data[0];
-    const gridpointsData = await fetch(`${API_ENDPOINT}/points/${lat},${lon}`);
+    const { lat, lon, display_name } = data[0];
+
+    const gridpointsData = await fetch(`${ENDPOINTS.WEATHER_API}/points/${lat},${lon}`);
     const gridpointsResponse = await gridpointsData.json() as TWeatherPointResponse;
+
     const forecastUrl = gridpointsResponse.properties.forecast;
-    const city = gridpointsResponse.properties.relativeLocation.properties.city;
-    const state = gridpointsResponse.properties.relativeLocation.properties.state;
+    const { state } = gridpointsResponse.properties.relativeLocation.properties;
+
     const forecastData = await fetch(forecastUrl);
     const forecastResponse = await forecastData.json() as TForecastData;
 
-    return { city, state, ...forecastResponse };
+    return { city: display_name.split(',')[0], state, ...forecastResponse };
 
 };
 
