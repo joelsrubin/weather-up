@@ -1,55 +1,53 @@
 
 import { Search, } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
 import { Field, FieldGroup, FieldLabel } from "./ui/field"
 import { Input } from "@base-ui/react"
 import { Button } from "./ui/button"
 import { useState } from "react"
 import type { UseMutateFunction } from "@tanstack/react-query"
 import { Spinner } from "./ui/spinner"
+import { DisplayCard } from "./ui/display-card"
 
 export function GetStarted({ getForecast, isFetchingForecast }: { getForecast: UseMutateFunction<any, Error, string, unknown>, isFetchingForecast: boolean }) {
     const [search, setSearch] = useState('')
 
     return (
-        <Card className="w-full max-w-sm rounded-3xl border-border shadow-sm bg-card mb-6">
-            <CardContent className="p-8 space-y-6">
-                {/* Temperature & Condition */}
-                <div className="flex items-start justify-between">
-                    <div>
-                        <p className="text-3xl font-bold tracking-tight text-foreground leading-none">
-                            Get Started
-                        </p>
-                    </div>
+        <DisplayCard>
+            {/* Temperature & Condition */}
+            <div className="flex items-start justify-between">
+                <div>
+                    <p className="text-3xl font-bold tracking-tight text-foreground leading-none">
+                        Get Started
+                    </p>
                 </div>
-                {/* Divider */}
-                <div className="border-t border-border" />
-                <form onSubmit={(e) => {
-                    e.preventDefault()
-                    getForecast(search)
+            </div>
+            {/* Divider */}
+            <div className="border-t border-border" />
+            <form onSubmit={(e) => {
+                e.preventDefault()
+                getForecast(search)
 
-                }}
+            }}
 
-                >
-                    <FieldGroup>
-                        <Field>
-                            <FieldLabel htmlFor="name">Location</FieldLabel>
-                            <Input required onChange={(e) => setSearch(e.target.value)} id="name" autoComplete="off" placeholder="Enter a location here..." className="outline-1 rounded-md p-2" />
+            >
+                <FieldGroup>
+                    <Field>
+                        <FieldLabel htmlFor="name">Location</FieldLabel>
+                        <Input required onChange={(e) => setSearch(e.target.value)} id="name" autoComplete="off" placeholder="Enter a location here..." className="outline-1 rounded-md p-2" />
 
-                        </Field>
-                        <Button
-                            className="w-full max-w-sm"
-                            type="submit"
+                    </Field>
+                    <Button
+                        className="w-full max-w-sm"
+                        type="submit"
 
-                            disabled={isFetchingForecast}
-                        >
-                            Search
-                            {isFetchingForecast ? <Spinner /> : <Search size={20} />}
-                        </Button>
-                    </FieldGroup>
-                </form>
-            </CardContent>
-        </Card>
+                        disabled={isFetchingForecast}
+                    >
+                        Search
+                        {isFetchingForecast ? <Spinner /> : <Search size={20} />}
+                    </Button>
+                </FieldGroup>
+            </form>
+        </DisplayCard>
     )
 }
 

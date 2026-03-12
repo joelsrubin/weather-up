@@ -15,16 +15,18 @@ import { RecommendationModal } from "./components/recommendation-modal"
 import { GetStarted } from "./components/get-started-card"
 import { useForecastMutation } from "./api/mutations/use-forecast-mutation"
 import { toast } from "sonner"
+import { VIEWS } from "./constants/views"
 
 
 export function App() {
 
-  const [view, setView] = useState<"search" | "forecast">("search")
+  const [view, setView] = useState<typeof VIEWS[keyof typeof VIEWS]>(VIEWS.SEARCH)
   const { setTheme, theme } = useTheme();
+
   const [isOpen, setIsOpen] = useState(false);
   const { data: forecast, mutate: getForecast, isPending: isFetchingForecast } = useForecastMutation({
     onSuccess: () => {
-      setView("forecast")
+      setView(VIEWS.FORECAST)
     },
     onError: (error) => {
       if (error.message.includes("forecast")) {
@@ -52,7 +54,7 @@ export function App() {
           <Button variant="outline" className="" size="icon-sm" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Moon /> : <Sun />}</Button>
         </div>
         <div className="flex flex-1 flex-col items-center justify-start w-full space-y-2 p-6">
-          {view === 'search' ? (<GetStarted getForecast={getForecast} isFetchingForecast={isFetchingForecast} />) : (
+          {view === VIEWS.SEARCH ? (<GetStarted getForecast={getForecast} isFetchingForecast={isFetchingForecast} />) : (
             <>
               <WeatherCard data={forecast} setView={setView} />
               <Button className="w-full max-w-sm" size="lg" disabled={isPending} onClick={() => {
