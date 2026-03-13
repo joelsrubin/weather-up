@@ -48,7 +48,7 @@ export function App() {
 
   return (
     <>
-      <div className="flex flex-col min-h-svh">
+      <div className="flex flex-col min-h-dvh" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div className="flex align-middle space-x-2 p-6 w-full h-full bg-accent/50">
           <h1 className="font-medium self-center">Weather Up</h1>
           <Button variant="outline" className="" size="icon-sm" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>{theme === 'dark' ? <Moon /> : <Sun />}</Button>
