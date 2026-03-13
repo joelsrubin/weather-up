@@ -33,7 +33,7 @@ export function GetStarted({ getForecast, isFetchingForecast }: { getForecast: U
                 <FieldGroup>
                     <Field>
                         <FieldLabel htmlFor="name">Location</FieldLabel>
-                        <Input required onChange={(e) => setSearch(e.target.value)} id="name" autoComplete="off" placeholder="Enter a location here..." className="outline-1 rounded-md p-2" />
+                        <Input required onChange={(e) => setSearch(e.target.value)} id="name" autoComplete="off" placeholder="Enter a location here..." className="outline-1 rounded-md p-2 text-[16px]" />
 
                     </Field>
                     <Button
