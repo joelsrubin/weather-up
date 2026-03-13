@@ -9,6 +9,7 @@ import {
 import {
     Area,
     AreaChart,
+    YAxis,
 
 } from "recharts"
 import { getPrecipitationProbabilities } from "@/utils/getPrecipitationProbabilities"
@@ -134,13 +135,15 @@ export function WeatherCard({
 
                         </defs>
 
-
+                        <YAxis domain={[0, 100]} hide={true} />
                         <Area
                             type="monotone"
                             dataKey="precipitation"
                             isAnimationActive={false}
                             fillOpacity={0.5}
                             fill="url(#fillMobile)"
+                        // i want the y axis to start at 0 and go to 100
+
                         />
                     </AreaChart>
                 </ChartContainer>
