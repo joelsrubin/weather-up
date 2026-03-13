@@ -25,6 +25,7 @@ const layerIcons: Record<string, React.ReactNode> = {
     "t-shirt": <Shirt className="w-4 h-4" />,
     shirt: <Shirt className="w-4 h-4" />,
     pants: <Icon iconNode={trousers} className="w-4 h-4" />,
+    jeans: <Icon iconNode={trousers} className="w-4 h-4" />,
     shorts: <Icon iconNode={trousers} className="w-4 h-4" />,
     jacket: <Droplets className="w-4 h-4" />,
     hat: <Icon iconNode={hatBaseball} className="w-4 h-4" />,
