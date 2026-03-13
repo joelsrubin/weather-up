@@ -33,6 +33,7 @@ const layerIcons: Record<string, React.ReactNode> = {
     beanie: <Icon iconNode={hatBaseball} className="w-4 h-4" />,
     shoes: <Footprints className="w-4 h-4" />,
     sneakers: <Footprints className="w-4 h-4" />,
+    boots: <Footprints className="w-4 h-4" />,
     sandals: <Footprints className="w-4 h-4" />,
 }
 
