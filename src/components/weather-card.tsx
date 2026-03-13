@@ -15,6 +15,8 @@ import { getPrecipitationProbabilities } from "@/utils/getPrecipitationProbabili
 import { DisplayCard } from "./ui/display-card"
 import { VIEWS } from "@/constants/views"
 
+import { useMutationState } from "@tanstack/react-query"
+
 type TWeatherCardData = TForecastData & {
     city: string
     state: string
@@ -47,6 +49,9 @@ export function WeatherCard({
         data?.properties.periods ?? []
     )
 
+    const [mutationState] = useMutationState({ filters: { mutationKey: ['geocode'] } })
+
+    const lastUpdated = new Date(mutationState.submittedAt).toLocaleString()
     return (
         <DisplayCard>
             {/* Temperature & Condition */}
@@ -142,7 +147,10 @@ export function WeatherCard({
                 <p className="text-xs text-muted-foreground">
                     Chance of precipitation throughout the week
                 </p>
+                <p className="text-xs text-muted-foreground">Forecast last updated: {lastUpdated}</p>
             </div>
+
+
         </DisplayCard>
     )
 }

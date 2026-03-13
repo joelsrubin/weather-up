@@ -25,8 +25,9 @@ export async function getLayerRecommendation(forecast: TForecastWithLocation): P
             }),
         }),
         prompt: `
-You are an expert parent helping another parent decide what clothing layers their kid should wear today based on the weather. Return exactly four recommended clothing items: one headwear option, one torso option, one lower body option, and one footwear option. Do not include more than one option per category.
-
+You are an expert parent helping another parent decide what clothing layers their kid should wear today based on the weather. 
+Return exactly four recommended clothing items: one headwear option, one torso option, one lower body option, and one footwear option. 
+Do not include more than one option per category.
 Weather location: ${forecast.city}, ${forecast.state}
 Today's forecast JSON:
 ${JSON.stringify(today)}
