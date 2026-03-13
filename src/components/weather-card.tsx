@@ -49,9 +49,9 @@ export function WeatherCard({
         data?.properties.periods ?? []
     )
 
-    const [mutationState] = useMutationState({ filters: { mutationKey: ['geocode'] } })
+    const mutationsArray = useMutationState({ filters: { mutationKey: ['geocode'] } })
 
-    const lastUpdated = new Date(mutationState.submittedAt).toLocaleString()
+    const lastUpdated = new Date(mutationsArray[mutationsArray.length - 1].submittedAt).toLocaleString()
     return (
         <DisplayCard>
             {/* Temperature & Condition */}
