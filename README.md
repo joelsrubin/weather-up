@@ -168,5 +168,6 @@ pnpm preview
 - **Better transparency and trust**: Offer simple explanations like “We chose a waterproof boot because there is an 80% chance of rain during school hours.”
 - **Accessibility improvements**: Audit color contrast, focus states, and screen‑reader text, and add more robust keyboard navigation.
 - **Resilience and offline behavior**: Handle flaky connections more gracefully, cache recent results, and let parents see the last successful forecast when offline.
+- **More testing**: With limited time I opted for a few unit tests to check for error handling and functionality but I'd want to add more UI testing and end to end testing.
 
 Together, these next steps would move Weather Up from a focused prototype into a more production‑ready tool for real families. 
